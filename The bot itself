@@ -1,0 +1,143 @@
+import discord, os, sys, time
+
+
+
+title="Discord Bot: Server Smacker"
+
+if os.name=="nt": os.system("title "+title)
+
+else: sys.stdout.write("\x1b]2;"+title+"\x07")
+
+
+
+scorelist={}
+
+
+
+client=discord.Client()
+
+
+
+@client.event
+
+async def on_ready():
+
+    print('Logged in as')
+
+    print(client.user.name)
+
+    print(client.user.id)
+
+    print('------')
+
+    print(client)
+
+
+
+@client.event
+
+async def on_message(message):
+
+    if message.content.startswith("!ss"):
+
+        global scorelist
+
+        command=message.content[4:]
+
+        if message.server not in scorelist: scorelist[message.server]=[0, 1]
+
+        
+
+        if str(message.server)=="ender_scythe's Discord Server":
+
+            if str(message.channel)=="games":
+
+                if command=="stats": await client.send_message(message.channel, "Server Smacker X by Xanman Gaming!\nScore: "+str(scorelist[message.server][0])+"\nScore per smack: "+str(scorelist[message.server][1]))
+
+                elif command=="buy":
+
+                    score=scorelist[message.server][0]
+
+                    if score>999999: score-=1000000; success=1; cost=1000000
+
+                    elif score>9999: score-=10000; success=1; cost=10000
+
+                    elif score>999: score-=1000; success=1; cost=1000
+
+                    elif score>499: score-=500; success=1; cost=500
+
+                    elif score>99: score-=100; success=1; cost=100
+
+                    elif score>49: score-=50; success=1; cost=50
+
+                    elif score>9: score-=10; success=1; cost=10
+
+                    else: success=0
+
+                    if success==1:
+
+                        scorelist[message.server][0]-=cost
+
+                        scorelist[message.server][1]+=cost//10
+
+                        await client.send_message(message.channel, str(message.author)+" bought an upgrade for "+str(cost)+" points!\nScore per smack now "+str(scorelist[message.server][1])+"!")
+
+                    else: await client.send_message(message.channel, str(message.author)+" tried to buy an upgrade, but the server doesn't have enough points!")
+
+                else:
+
+                    scorelist[message.server][0]+=scorelist[message.server][1]
+
+                    await client.send_message(message.channel, str(message.author)+" just smacked the server for "+str(scorelist[message.server][1])+" points!\nScore now "+str(scorelist[message.server][0])+"!")
+
+        else:    
+
+            if command=="stats": await client.send_message(message.channel, "Server Smacker X by Xanman Gaming!\nScore: "+str(scorelist[message.server][0])+"\nScore per smack: "+str(scorelist[message.server][1]))
+
+            elif command=="buy":
+
+                score=scorelist[message.server][0]
+
+                if score>999999: score-=1000000; success=1; cost=1000000
+
+                elif score>9999: score-=10000; success=1; cost=10000
+
+                elif score>999: score-=1000; success=1; cost=1000
+
+                elif score>499: score-=500; success=1; cost=500
+
+                elif score>99: score-=100; success=1; cost=100
+
+                elif score>49: score-=50; success=1; cost=50
+
+                elif score>9: score-=10; success=1; cost=10
+
+                else: success=0
+
+                if success==1:
+
+                    scorelist[message.server][0]-=cost
+
+                    scorelist[message.server][1]+=add
+
+                    await client.send_message(message.channel, str(message.author)+" bought an upgrade for "+str(cost)+" points!\nScore per smack now "+str(scorelist[message.server][1])+"!")
+
+                else: await client.send_message(message.channel, str(message.author)+" tried to buy an upgrade, but the server doesn't have enough points!")
+
+            else:
+
+                scorelist[message.server][0]+=scorelist[message.server][1]
+
+                await client.send_message(message.channel, str(message.author)+" just slapped the server for "+str(scorelist[message.server][1])+" points!\nScore now "+str(scorelist[message.server][0])+"!")
+
+
+
+#if time.time()-start>1:
+
+#    score+=incscoreauto
+
+#    start=time.time()
+
+
+
+client.run("MjU3MzY1MTIzMTQyNzc4ODgw.Cy5peQ.m4uDD48x2GkApPUHFtjceNC9LVM")
